@@ -53,18 +53,31 @@
           </button>
         </div>
         <div class="event-page-right min-width-0 flex-1">
-          <UButton
-            icon="i-heroicons-globe-alt"
-            size="sm"
-            color="gray"
-            variant="soft"
-            label="公开"
-            :trailing="false"
-          >
-            <template #trailing>
-              <UIcon name="i-heroicons-chevron-down" />
+          <UPopover :popper="{ placement: 'bottom-start' }">
+            <UButton
+              icon="i-heroicons-globe-alt"
+              size="sm"
+              color="gray"
+              variant="soft"
+              label="公开"
+              :trailing="false"
+            >
+              <template #trailing>
+                <UIcon name="i-heroicons-chevron-down" />
+              </template>
+            </UButton>
+
+            <template #panel="{ close }">
+              <UCommandPalette>
+                <template #empty-state>
+                  <div class="flex flex-col items-center justify-center py-6 gap-3">
+                    <span class="italic text-sm">Nothing here!</span>
+                  </div>
+                </template>
+              </UCommandPalette>
             </template>
-          </UButton>
+          </UPopover>
+
           <UInput
             size="xl"
             color="red"
@@ -74,7 +87,7 @@
           />
           <div class="flex-column gap-3">
             <div class="time-picker flex-1">
-              <div class="relative flex-1">
+              <div class="box1 relative flex-1">
                 <div class="timeline"></div>
                 <div class="start-row flex-baseline">
                   <div class="dot"></div>
@@ -142,23 +155,35 @@
                   </div>
                 </div>
               </div>
-              <div class="tz-input animated">
-                <div class="lux-menu-trigger-wrapper cursor-pointer full-width">
-                  <div class="tz-display text-secondary-alpha">
-                    <div class="icon">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                        <path
-                          fill="currentColor"
-                          fill-rule="evenodd"
-                          d="M9.394 12.674c-.604 1.208-1.178 1.42-1.394 1.42-.216 0-.79-.212-1.394-1.42-.491-.982-.85-2.368-.932-3.97h4.652c-.082 1.602-.44 2.988-.932 3.97Zm.932-5.377H5.674c.082-1.603.44-2.989.932-3.971C7.21 2.118 7.784 1.906 8 1.906c.216 0 .79.212 1.394 1.42.491.982.85 2.368.932 3.97Zm1.408 1.406c-.09 1.915-.538 3.622-1.21 4.846a6.1 6.1 0 0 0 3.53-4.846h-2.32Zm2.32-1.406h-2.32c-.09-1.915-.538-3.622-1.21-4.845a6.1 6.1 0 0 1 3.53 4.845Zm-9.788 0c.09-1.915.538-3.622 1.21-4.845a6.099 6.099 0 0 0-3.53 4.845h2.32Zm-2.32 1.406a6.1 6.1 0 0 0 3.53 4.846c-.672-1.224-1.12-2.93-1.21-4.846h-2.32ZM15.5 8a7.5 7.5 0 1 0-15 0 7.5 7.5 0 0 0 15 0Z"
-                        ></path>
-                      </svg>
+              <UPopover :popper="{ arrow: true, placement: 'bottom-end' }">
+                <div class="tz-input animated">
+                  <div class="lux-menu-trigger-wrapper cursor-pointer full-width">
+                    <div class="tz-display text-secondary-alpha">
+                      <div class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                          <path
+                            fill="currentColor"
+                            fill-rule="evenodd"
+                            d="M9.394 12.674c-.604 1.208-1.178 1.42-1.394 1.42-.216 0-.79-.212-1.394-1.42-.491-.982-.85-2.368-.932-3.97h4.652c-.082 1.602-.44 2.988-.932 3.97Zm.932-5.377H5.674c.082-1.603.44-2.989.932-3.971C7.21 2.118 7.784 1.906 8 1.906c.216 0 .79.212 1.394 1.42.491.982.85 2.368.932 3.97Zm1.408 1.406c-.09 1.915-.538 3.622-1.21 4.846a6.1 6.1 0 0 0 3.53-4.846h-2.32Zm2.32-1.406h-2.32c-.09-1.915-.538-3.622-1.21-4.845a6.1 6.1 0 0 1 3.53 4.845Zm-9.788 0c.09-1.915.538-3.622 1.21-4.845a6.099 6.099 0 0 0-3.53 4.845h2.32Zm-2.32 1.406a6.1 6.1 0 0 0 3.53 4.846c-.672-1.224-1.12-2.93-1.21-4.846h-2.32ZM15.5 8a7.5 7.5 0 1 0-15 0 7.5 7.5 0 0 0 15 0Z"
+                          ></path>
+                        </svg>
+                      </div>
+                      <div class="mono-number">GMT-05:00</div>
+                      <div class="place">Toronto</div>
                     </div>
-                    <div class="mono-number">GMT-05:00</div>
-                    <div class="place">Toronto</div>
                   </div>
                 </div>
-              </div>
+
+                <template #panel="{ close }">
+                  <UCommandPalette>
+                    <template #empty-state>
+                      <div class="flex flex-col items-center justify-center py-6 gap-3">
+                        <span class="italic text-sm">Nothing here!</span>
+                      </div>
+                    </template>
+                  </UCommandPalette>
+                </template>
+              </UPopover>
             </div>
           </div>
           <div class="item-box mt-4 rounded-lg">
@@ -433,9 +458,11 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 .time-picker {
   display: flex;
   gap: 6px;
-  background: rgba(19, 21, 23, 0.04);
-  border-radius: 0.5rem;
 
+  .box1 {
+    background: rgba(19, 21, 23, 0.04);
+    border-radius: 0.5rem;
+  }
   .timeline {
     position: absolute;
     top: 1.75rem;
