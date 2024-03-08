@@ -93,12 +93,19 @@
                   </UPopover>
                   <div class="divider"></div>
                   <div class="time-input">
-                    <input
-                      type="time"
-                      placeholder="HH:MM"
+                    <USelectMenu
+                      v-slot="{ open }"
                       class="dt-input"
-                      value="15:30"
-                    />
+                      v-model="StartTimeSelected"
+                      :options="StartTimePeople"
+                    >
+                      <input
+                        type="time"
+                        placeholder="HH:MM"
+                        class="dt-input"
+                        :value="StartTimeSelected"
+                      />
+                    </USelectMenu>
                   </div>
                 </div>
                 <div class="end-row flex-baseline">
@@ -120,12 +127,18 @@
 
                   <div class="divider"></div>
                   <div class="time-input">
-                    <input
-                      type="time"
-                      placeholder="HH:MM"
+                    <USelectMenu
                       class="dt-input"
-                      value="15:30"
-                    />
+                      v-model="EndTimeSelected"
+                      :options="EndTimePeople"
+                    >
+                      <input
+                        type="time"
+                        placeholder="HH:MM"
+                        class="dt-input"
+                        :value="EndTimeSelected"
+                      />
+                    </USelectMenu>
                   </div>
                 </div>
               </div>
@@ -287,9 +300,28 @@
 </template>
 <script setup lang="ts">
 import dayjs from "dayjs";
-const startDate = ref(new Date());
-const endDate = ref(new Date());
+
 const selectedToggle = ref(false);
+
+// 开始时间
+const startDate = ref(new Date());
+const StartTimePeople = [];
+const Startimes = Array.from({ length: 48 }, (_, i) => {
+  let hour = Math.floor(i / 2);
+  let minute = i % 2 === 0 ? "00" : "30";
+  return StartTimePeople.push(`${hour.toString().padStart(2, "0")}:${minute}`);
+});
+const StartTimeSelected = ref(StartTimePeople[0]);
+
+// 结束时间
+const endDate = ref(new Date());
+const EndTimePeople = [];
+const Endtimes = Array.from({ length: 48 }, (_, i) => {
+  let hour = Math.floor(i / 2);
+  let minute = i % 2 === 0 ? "00" : "30";
+  return EndTimePeople.push(`${hour.toString().padStart(2, "0")}:${minute}`);
+});
+const EndTimeSelected = ref(EndTimePeople[0]);
 </script>
 <style scoped lang="less">
 input[type="time"]::-webkit-calendar-picker-indicator {
@@ -425,7 +457,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
       background-color: rgba(19, 21, 23, 0.04);
     }
     .time-input {
-      width: 3.6rem;
+      width: 7rem;
     }
     input {
       min-width: 0;
