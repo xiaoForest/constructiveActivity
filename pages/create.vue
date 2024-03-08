@@ -186,29 +186,35 @@
               </UPopover>
             </div>
           </div>
-          <div class="item-box mt-4 rounded-lg">
-            <div class="icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                <g
-                  fill="none"
-                  fill-rule="evenodd"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="1.5"
-                >
-                  <path
-                    d="M2 6.854C2 11.02 7.04 15 8 15s6-3.98 6-8.146C14 3.621 11.314 1 8 1S2 3.62 2 6.854Z"
-                  ></path>
-                  <path d="M9.5 6.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"></path>
-                </g>
-              </svg>
+          <UPopover :popper="{ placement: 'bottom-start' }">
+            <div class="item-box mt-4 rounded-lg">
+              <div class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                  <g
+                    fill="none"
+                    fill-rule="evenodd"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                  >
+                    <path
+                      d="M2 6.854C2 11.02 7.04 15 8 15s6-3.98 6-8.146C14 3.621 11.314 1 8 1S2 3.62 2 6.854Z"
+                    ></path>
+                    <path d="M9.5 6.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"></path>
+                  </g>
+                </svg>
+              </div>
+              <div class="info">
+                <div class="h2">添加活动地点</div>
+                <div class="h3">线下地点或虚拟链接</div>
+              </div>
             </div>
-            <div class="info">
-              <div class="h2">添加活动地点</div>
-              <div class="h3">线下地点或虚拟链接</div>
-            </div>
-          </div>
+            <template #panel="{ close }">
+              <UCommandPalette ref="commandPaletteRef" :groups="groups" :autoselect="false" @update:model-value="onSelect" />
+            </template>
+          </UPopover>
+
           <div class="item-box mt-4 rounded-lg">
             <div class="icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
@@ -347,6 +353,47 @@ const Endtimes = Array.from({ length: 48 }, (_, i) => {
   return EndTimePeople.push(`${hour.toString().padStart(2, "0")}:${minute}`);
 });
 const EndTimeSelected = ref(EndTimePeople[0]);
+
+const router = useRouter()
+const toast = useToast()
+
+const commandPaletteRef = ref()
+
+const users = [
+  { id: 'benjamincanac', label: 'benjamincanac', href: 'https://github.com/benjamincanac', target: '_blank', avatar: { src: 'https://ipx.nuxt.com/s_16x16/gh_avatar/benjamincanac', srcset: 'https://ipx.nuxt.com/s_32x32/gh_avatar/benjamincanac 2x', loading: 'lazy' } },
+  { id: 'Atinux', label: 'Atinux', href: 'https://github.com/Atinux', target: '_blank', avatar: { src: 'https://ipx.nuxt.com/s_16x16/gh_avatar/Atinux', srcset: 'https://ipx.nuxt.com/s_32x32/gh_avatar/Atinux 2x', loading: 'lazy' } },
+  { id: 'smarroufin', label: 'smarroufin', href: 'https://github.com/smarroufin', target: '_blank', avatar: { src: 'https://ipx.nuxt.com/s_16x16/gh_avatar/smarroufin', srcset: 'https://ipx.nuxt.com/s_32x32/gh_avatar/smarroufin 2x', loading: 'lazy' } }
+]
+
+const actions = [
+  { id: 'new-file', label: 'Add new file', icon: 'i-heroicons-document-plus', click: () => toast.add({ title: 'New file added!' }) },
+  { id: 'new-folder', label: 'Add new folder', icon: 'i-heroicons-folder-plus', click: () => toast.add({ title: 'New folder added!' })},
+  { id: 'hashtag', label: 'Add hashtag', icon: 'i-heroicons-hashtag', click: () => toast.add({ title: 'Hashtag added!' })},
+  { id: 'label', label: 'Add label', icon: 'i-heroicons-tag', click: () => toast.add({ title: 'Label added!' })}
+]
+
+const groups = computed(() =>
+  [commandPaletteRef.value?.query ? {
+    key: 'users',
+    commands: users
+  } : {
+    key: 'recent',
+    label: 'Recent searches',
+    commands: users.slice(0, 1)
+  }, {
+    key: 'actions',
+    commands: actions
+  }].filter(Boolean))
+
+function onSelect (option) {
+  if (option.click) {
+    option.click()
+  } else if (option.to) {
+    router.push(option.to)
+  } else if (option.href) {
+    window.open(option.href, '_blank')
+  }
+}
 </script>
 <style scoped lang="less">
 input[type="time"]::-webkit-calendar-picker-indicator {
