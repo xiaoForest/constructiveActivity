@@ -8,7 +8,12 @@
   <div class="h-32"></div>
   <AppFooter />
 </template>
-
+<script setup lang="ts">
+import dayjs from "dayjs";
+import 'dayjs/locale/zh'
+dayjs.locale('zh')
+ 
+</script>
 <style>
 .page-enter-active,
 .page-leave-active {

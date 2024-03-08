@@ -74,14 +74,23 @@
           />
           <div class="flex-column gap-3">
             <div class="time-picker flex-1">
-              <div class="relative time-wrapper flex-1">
+              <div class="relative flex-1">
                 <div class="timeline"></div>
                 <div class="start-row flex-baseline">
                   <div class="dot"></div>
                   <div class="label nowrap flex-1">开始</div>
-                  <div class="date-input">
-                    <input type="text" class="dt-input" value="3月7日周四" />
-                  </div>
+                  <UPopover :popper="{ placement: 'bottom-start' }">
+                    <div class="date-input">
+                      <input
+                        type="text"
+                        class="dt-input"
+                        :value="dayjs(startDate).format('MMMDD日dddd')"
+                      />
+                    </div>
+                    <template #panel="{ close }">
+                      <DatePicker v-model="startDate" @close="close" />
+                    </template>
+                  </UPopover>
                   <div class="divider"></div>
                   <div class="time-input">
                     <input
@@ -95,9 +104,20 @@
                 <div class="end-row flex-baseline">
                   <div class="dot"></div>
                   <div class="label nowrap flex-1">结束</div>
-                  <div class="date-input">
-                    <input type="text" class="dt-input" value="3月7日周四" />
-                  </div>
+
+                  <UPopover :popper="{ placement: 'bottom-start' }">
+                    <div class="date-input">
+                      <input
+                        type="text"
+                        class="dt-input"
+                        :value="dayjs(endDate).format('MMMDD日dddd')"
+                      />
+                    </div>
+                    <template #panel="{ close }">
+                      <DatePicker v-model="endDate" @close="close" />
+                    </template>
+                  </UPopover>
+
                   <div class="divider"></div>
                   <div class="time-input">
                     <input
@@ -266,6 +286,9 @@
   </main>
 </template>
 <script setup lang="ts">
+import dayjs from "dayjs";
+const startDate = ref(new Date());
+const endDate = ref(new Date());
 const selectedToggle = ref(false);
 </script>
 <style scoped lang="less">
@@ -374,12 +397,8 @@ const selectedToggle = ref(false);
 .time-picker {
   display: flex;
   gap: 6px;
-  .time-wrapper {
-    background: rgba(19, 21, 23, 0.04);
-    position: relative;
-    border-radius: 0.5rem;
-    backdrop-filter: blur(16px);
-  }
+  background: rgba(19, 21, 23, 0.04);
+  border-radius: 0.5rem;
 
   .timeline {
     position: absolute;

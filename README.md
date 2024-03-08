@@ -45,6 +45,10 @@ Likes
 3. Run `yarn install` to install the dependencies.
 4. Run `yarn dev` to start the development server.
 
-## Contributing
+ 
+## icon
+https://ui.nuxt.com/components/icon
+https://icones.js.org/collection/heroicons?s=glo
 
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+## BUTTON
+https://ui.nuxt.com/components/button
