@@ -292,6 +292,10 @@ const endDate = ref(new Date());
 const selectedToggle = ref(false);
 </script>
 <style scoped lang="less">
+input[type="time"]::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
 .page-container {
   min-height: auto;
   position: relative;
@@ -304,8 +308,8 @@ const selectedToggle = ref(false);
 }
 .event-page-content-wrapper {
   display: flex;
-  -webkit-box-align: start;
-  align-items: start;
+  -webkit-box-align: flex-start;
+  align-items: flex-start;
   gap: 2rem;
   padding: 1rem;
   --gap: 1.5rem;
@@ -421,7 +425,7 @@ const selectedToggle = ref(false);
       background-color: rgba(19, 21, 23, 0.04);
     }
     .time-input {
-      width: 6rem;
+      width: 3.6rem;
     }
     input {
       min-width: 0;
